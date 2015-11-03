@@ -1,0 +1,186 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1265\cocoasubrtf200
+{\fonttbl\f0\fnil\fcharset0 TrebuchetMS;\f1\fnil\fcharset0 Menlo-Regular;\f2\fmodern\fcharset0 Courier;
+\f3\fswiss\fcharset0 ArialMT;}
+{\colortbl;\red255\green255\blue255;\red83\green83\blue83;\red255\green255\blue255;\red40\green79\blue147;
+\red236\green236\blue236;\red52\green52\blue52;\red117\green117\blue117;\red234\green234\blue234;}
+{\*\listtable{\list\listtemplateid1\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid1\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid1}}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}}
+\margl1440\margr1440\vieww12600\viewh7800\viewkind0
+\deftab720
+\pard\pardeftab720
+
+\f0\fs44 \cf2 \cb3 Using PTaskScheduler - UniParallel Unity package\
+\pard\pardeftab720\sl340
+
+\fs22 \cf2 \
+\pard\pardeftab720\sl360
+
+\fs26 \cf2 \
+UniParallel is a .Net package designed to work with Unity and help developers to easily utilize the power of multi-core devices.\
+\
+The\'a0
+\f1 \cf4 PTaskScheduler
+\f0 \cf2 \'a0class allows simple and easy scheduling of background tasks in a variety of ways.\
+\
+There are 4 types of background tasks, each designed to behave in a very specific way\
+\
+\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\sl360\sa65
+\ls1\ilvl0\cf2 {\listtext	\'95	}Use\'a0
+\f1 \cf4 ImmediateTask
+\f0 \cf2 \'a0if you want to schedule a task for immediate execution\
+{\listtext	\'95	}Use\'a0
+\f1 \cf4 TimedTask
+\f0 \cf2 \'a0if you want to schedule a task for delayed execution\
+{\listtext	\'95	}Use\'a0
+\f1 \cf4 RepeatableTask
+\f0 \cf2 \'a0to execute tasks a certain number of times on a interval\
+{\listtext	\'95	}And use\'a0
+\f1 \cf4 InfiniteTask
+\f0 \cf2 \'a0\'a0to execute tasks indefinitely on a certain interval\
+\pard\pardeftab720\sl360
+\cf2 \
+All scheduled tasks are executed without blocking the calling thread. While this can help increase parallelism in your app or game, it also means that you'll have to what for synchronization and concurrency problems.\
+When using this library in your Unity application, don't directly modify resources that are owner by the rendering thread.\
+\
+You can and should, however, use this library for processing of any independent data processing, like loading of assets, processing object specific calculation, downloading files of the internet, so on and so forth.\
+\
+\pard\pardeftab720\sl360
+
+\f1 \cf4 PTaskScheduler
+\f0 \cf2 \'a0is extremely light weight and designed to work without impacting the application using it.\
+\pard\pardeftab720\sl360\sa220
+
+\b\fs22 \cf0 Code examples\
+\pard\pardeftab720\sl360
+
+\b0\fs26 \cf2 \
+Scheduling tasks depends on 2 components: The task processor\'a0
+\f1 \cf4 PTaskScheduler\'a0
+\f0 \cf2 and a task. All tasks implement the\'a0
+\f1 \cf4 IUniTask\'a0
+\f0 \cf2 interface.\
+\
+Let's start with the most simple task type:\'a0
+\f1 \cf4 ImmediateTask
+\f0 \cf2 \
+\
+\pard\pardeftab720\sl400
+
+\f2\fs24 \cf0 \cb5  [...]\
+ PTaskScheduler   taskScheduler = PTaskScheduler.Create();  \
+ IUniTask task = new ImmediateTask(ImmediateTaskProc);   \
+ taskScheduler.Enqueue(task);\
+ [...]\
+\
+ private void ImmediateTaskProc()  \
+ \{  \
+    System.Console.WriteLine("Hello from another thread");  \
+ \}  
+\f3 \
+\pard\pardeftab720\sl360
+
+\f0\fs26 \cf2 \cb3 \
+\
+To schedule method to be executed after a certain delay, use \'a0
+\f1 \cf4 TimedTask
+\f0 \cf2 \
+\pard\pardeftab720\sl400
+
+\f2\fs24 \cf0 \cb5  [...]\
+ PTaskScheduler   taskScheduler = PTaskScheduler.Create();  \
+ int delayInMilliseconds=1000;\
+ IUniTask task = new TimedTask(DelayedTaskProc, delayInMilliseconds);   \
+ taskScheduler.Enqueue(task);\
+ [...]\
+\
+ private void DelayedTaskProc()  \
+ \{  \
+    System.Console.WriteLine("Hello after 1000 milliseconds");  \
+ \}  
+\f3 \
+\pard\pardeftab720\sl360
+
+\f0\fs26 \cf2 \cb3 \
+\
+To schedule method to be executed repeatedly on interval, use \'a0
+\f1 \cf4 RepeatableTask
+\f0 \cf2 \
+\pard\pardeftab720\sl400
+
+\f2\fs24 \cf0 \cb5  [...]\
+ PTaskScheduler   taskScheduler = PTaskScheduler.Create();  \
+ int delayInMilliseconds=1000;\
+ int runCount = 10;\
+ IUniTask task = new RepeatableTask(RepeatableTaskProc, delayInMilliseconds, runCount);   \
+ taskScheduler.Enqueue(task);\
+ [...]\
+\
+ private void RepeatableTaskProc()  \
+ \{  \
+    System.Console.WriteLine("This will be executed 10 times every 1000 milliseconds");  \
+ \}  
+\f3 \
+\pard\pardeftab720\sl360
+
+\f0\fs26 \cf2 \cb3 \
+\
+And if you want to schedule method to be executed indefinitely on interval, use \'a0
+\f1 \cf4 InfiniteTask.
+\f0 \cf2 \'a0You can cancel the execution of any task by calling the method\'a0
+\f1 \cf6 Cancel()
+\f0 \cf2 \'a0on the task object\'a0in question\
+\pard\pardeftab720\sl400
+
+\f2\fs24 \cf0 \cb5  [...]\
+ PTaskScheduler   taskScheduler = PTaskScheduler.Create();  \
+ int delayInMilliseconds=1000;\
+ IUniTask task = new InfiniteTask(InfiniteTaskProc, delayInMilliseconds);   \
+ taskScheduler.Enqueue(task);\
+\
+ [...]\
+ // OK, time to shutdown\
+ task.Cancel(); \
+ [...]\
+\
+ private void InfiniteTaskProc()  \
+ \{  \
+    System.Console.WriteLine("This will be executed indefinitely every 1000 milliseconds");  \
+ \}  
+\f3 \
+\pard\pardeftab720\sl360
+
+\f0\fs26 \cf2 \cb3 \
+Naturally, you can combine all the different task types described about and enqueue them in the same scheduler.\
+\
+You can also schedule execute methods that have arguments using {\field{\*\fldinst{HYPERLINK "http://msdn.microsoft.com/en-us/library/bb397687.aspx"}}{\fldrslt \cf7 Lambda Expressions}}.\
+The example below uses a\'a0
+\f1 \cf4 ImmediateTask
+\f0 \cf2 \'a0but the same strategy applies to any task type.\
+\pard\pardeftab720\sl400
+
+\f2\fs24 \cf0 \cb5  [...]\
+ PTaskScheduler   taskScheduler = PTaskScheduler.Create();  \
+ int delayInMilliseconds=1000;\
+ IUniTask task = new ImmediateTask(\
+            ()=>WithArgs(" text argument ", 42)\
+                        );\
+ taskScheduler.Enqueue(task);\
+ [...]\
+ private void WithArgs(string strArg, int intArg)\
+ \{\
+   Debug.Log("string arg = "+strArg+" int arg "+intArg);\
+ \}
+\f3 \
+\pard\pardeftab720\sl360
+
+\f0\fs26 \cf2 \cb3 \
+\
+This library is being actively used in many platforms that support .Net or Mono, including all supported by Unity.\
+\
+If you have any questions or suggestions, please send a message to the gmail account junity3.\
+\
+\pard\pardeftab720\sl340
+
+\fs22 \cf2 \cb8 \
+}
