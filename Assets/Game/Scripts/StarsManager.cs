@@ -18,6 +18,12 @@ public class StarsManager : BaseSingleton<StarsManager>
 
 	public static System.Action onGameOver;
 
+	//TEMP
+	public void SetPlayableStar(StarStats star)
+	{
+		playableStar = star;
+	}
+
 	void CreateStar(Vector3 position, bool isPlayable = false)
 	{
 		GameObject go = GameObject.Instantiate(starPrefab, position, Quaternion.identity) as GameObject;
