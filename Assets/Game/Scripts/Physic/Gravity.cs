@@ -3,65 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class ParticleInfo
-{
-	public SpaceParticle spaceParticle;
-	public Vector3 position;
-	public Vector3 force = Vector3.zero;
-	public float angularPower = 0;
-	public float slowDown = 1;
-
-	public ParticleInfo(SpaceParticle spaceParticle)
-	{
-		this.spaceParticle = spaceParticle;
-		this.position = spaceParticle.transform.position;
-	}
-}
-
-[System.Serializable]
-public class GravityConfiguration
-{
-	[SerializeField] float baseGravityRadius = 6;
-	[SerializeField] float baseOutRadius = 1.5f;
-	[SerializeField] float baseInRadius = 1.25f;
-	[SerializeField] float baseOutPower = 50;
-	[SerializeField] float baseInPower = 5;
-	[SerializeField] float baseAngularPower = 22.5f;
-	[SerializeField] float baseColorPower = 1.0f;
-
-
-	public float gravityRadius { get; private set; }
-	public float outRadius { get; private set; }
-	public float inRadius { get; private set; }
-	public float outPower { get; private set; }
-	public float inPower { get; private set; }
-	public float angularPower { get; private set; }
-	public float colorPower { get; private set; }
-	
-	public Vector3 axis { get; private set; }
-
-
-	public float power { get; private set; }
-
-	public void SetPower(float power)
-	{
-		this.power = power;
-		
-		gravityRadius = baseGravityRadius * power;
-		outRadius = baseOutRadius * power;
-		inRadius = baseInRadius * power;
-		outPower = baseOutPower * power;
-		inPower = baseInPower * power;
-		angularPower = baseAngularPower * power;
-
-		colorPower = baseColorPower * power;
-	}
-
-	public void SetAxis(Vector3 axis)
-	{
-		this.axis = axis;
-	}
-}
 
 public class Gravity : MonoBehaviour 
 {
@@ -69,20 +10,16 @@ public class Gravity : MonoBehaviour
 
 	[SerializeField] int deltaTime = 50;
 
-	Material material;
 	bool isAlive = true;
 	bool calculate = false;
 
 	Vector3 starPosition = Vector3.zero;
 	List<ParticleInfo> usedParticles;
+
 	System.Action onCalculate;
-//	[SerializeField] float elapsedTime = 0.0015f;
-	float timeScale = 0.0015f;
-	Color starColor = Color.white;
 
 	StarStats stats;
 
-	int particleCount = 0;
 	float dependency = 0f;
 
 
@@ -101,17 +38,6 @@ public class Gravity : MonoBehaviour
 	void OnEnable()
 	{
 		isAlive = true;
-
-		MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
-		if (meshRenderer != null)
-		{
-			material = meshRenderer.sharedMaterial;
-		}
-
-		if (material != null)
-		{
-			starColor = material.GetColor("_EmissionColor");
-		}
 
 		Loom.RunAsync(CalculateGravity);
 	}
@@ -135,10 +61,6 @@ public class Gravity : MonoBehaviour
 		calculate = true;
 	}
 
-//	void Update()
-//	{
-////		elapsedTime += Time.deltaTime;
-//	}
 
 	void CalculateGravity()
 	{
@@ -183,7 +105,7 @@ public class Gravity : MonoBehaviour
 
 					if (particle.force != Vector3.zero)
 					{
-						particle.spaceParticle.AddForce(particle.force * timeScale);
+						particle.spaceParticle.AddForce(particle.force * CONST.GRAVITY_TIME_SCALE);
 					}
 					if (particle.slowDown != 1)
 					{
@@ -207,7 +129,7 @@ public class Gravity : MonoBehaviour
 	{
 		foreach (ParticleInfo particle in usedParticles)
 		{
-			particle.spaceParticle.SetColor(stats, Mathf.Abs(gravityConfiguration.colorPower) * timeScale);
+			particle.spaceParticle.SetColor(stats, Mathf.Abs(gravityConfiguration.colorPower) * CONST.GRAVITY_TIME_SCALE);
 		}
 
 //		elapsedTime = 0;

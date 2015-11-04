@@ -7,18 +7,13 @@ public class StarStats : MonoBehaviour
 	[SerializeField] MeshRenderer starRender;
 	[SerializeField] Material baseMaterial;
 	[SerializeField] Transform starTransform;
-//	[SerializeField] SphereCollider starCollider;
 
-//	[SerializeField] float size = 1f;
-	[SerializeField] float power = 1f;
-	[SerializeField] Vector3 gravityAxis = Vector3.forward;
-	[SerializeField] Color starColor = Color.white;
-	[SerializeField] Color disableColor = Color.black;
-	[SerializeField] float changeSpeed = 1.0f;
+	[SerializeField] StarConfiguration starConfig;
+
 
 	public Color color
 	{
-		get { return starColor; }
+		get { return starConfig.starColor; }
 	}
 	
 
@@ -36,39 +31,38 @@ public class StarStats : MonoBehaviour
 		number = StarsManager.GetNumber();
 
 		Init();
-		oldPower = power;
+		oldPower = starConfig.power;
 	}
 
 
 	void Init()
 	{
-		gravity.Init(power, gravityAxis, this);
+		gravity.Init(starConfig.power, starConfig.gravityAxis, this);
 		SetSize();
 		
 		starRender.material = new Material(baseMaterial);
-		starRender.material.SetColor(colorKey, starColor);
+		starRender.material.SetColor(colorKey, starConfig.starColor);
 	}
 
 	public void SetDependency(float dependency)
 	{
-//		power = Mathf.Lerp(power, dependency / 500.0f, Time.deltaTime * changeSpeed);
-		power = Mathf.Lerp(power, dependency / 500.0f, Time.deltaTime * changeSpeed);
+		starConfig.power = Mathf.Lerp(starConfig.power, dependency / CONST.PARTICLES_COEFFICIENT, Time.deltaTime * starConfig.changeSpeed);
+
 		
-		
-		if (oldPower != power)
+		if (oldPower != starConfig.power)
 		{
 			SetPower();
-			oldPower = power;
+			oldPower = starConfig.power;
 		}
 	}
 
 
 	void SetPower()
 	{
-		gravity.SetPower(power);
+		gravity.SetPower(starConfig.power);
 		SetSize();
 
-		if (power < minPower)
+		if (starConfig.power < minPower)
 		{
 			StarsManager.Instance.DestroyStar(this);
 		}
@@ -76,7 +70,7 @@ public class StarStats : MonoBehaviour
 
 	void SetSize()
 	{
-		starTransform.localScale = Vector3.one * power / 2.0f;
+		starTransform.localScale = Vector3.one * starConfig.power / 2.0f;
 	}
 
 

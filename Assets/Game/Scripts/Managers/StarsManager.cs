@@ -13,12 +13,6 @@ public class StarsManager : BaseSingleton<StarsManager>
 	}
 
 	[SerializeField] GameObject starPrefab;
-//	[SerializeField] float _timeScale = 0.0015f;
-//
-//	public float timeScale
-//	{
-//		get { return timeScale; }
-//	}
 
 	StarStats playableStar;
 
