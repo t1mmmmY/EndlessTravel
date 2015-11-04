@@ -51,7 +51,9 @@ public class StarStats : MonoBehaviour
 
 	public void SetDependency(float dependency)
 	{
+//		power = Mathf.Lerp(power, dependency / 500.0f, Time.deltaTime * changeSpeed);
 		power = Mathf.Lerp(power, dependency / 500.0f, Time.deltaTime * changeSpeed);
+		
 		
 		if (oldPower != power)
 		{

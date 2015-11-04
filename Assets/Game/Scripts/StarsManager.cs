@@ -13,6 +13,12 @@ public class StarsManager : BaseSingleton<StarsManager>
 	}
 
 	[SerializeField] GameObject starPrefab;
+//	[SerializeField] float _timeScale = 0.0015f;
+//
+//	public float timeScale
+//	{
+//		get { return timeScale; }
+//	}
 
 	StarStats playableStar;
 
@@ -22,6 +28,12 @@ public class StarsManager : BaseSingleton<StarsManager>
 	public void SetPlayableStar(StarStats star)
 	{
 		playableStar = star;
+	}
+
+	protected override void Awake ()
+	{
+		Application.targetFrameRate = 30;
+		base.Awake ();
 	}
 
 	void CreateStar(Vector3 position, bool isPlayable = false)

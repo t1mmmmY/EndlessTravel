@@ -76,7 +76,8 @@ public class Gravity : MonoBehaviour
 	Vector3 starPosition = Vector3.zero;
 	List<ParticleInfo> usedParticles;
 	System.Action onCalculate;
-	float elapsedTime = 0;
+//	[SerializeField] float elapsedTime = 0.0015f;
+	float timeScale = 0.0015f;
 	Color starColor = Color.white;
 
 	StarStats stats;
@@ -120,6 +121,11 @@ public class Gravity : MonoBehaviour
 		isAlive = false;
 	}
 
+	void OnDestroy()
+	{
+		isAlive = false;
+	}
+
 	void GetParticles() 
 	{
 		starPosition = transform.position;
@@ -129,10 +135,10 @@ public class Gravity : MonoBehaviour
 		calculate = true;
 	}
 
-	void Update()
-	{
-		elapsedTime += Time.deltaTime;
-	}
+//	void Update()
+//	{
+////		elapsedTime += Time.deltaTime;
+//	}
 
 	void CalculateGravity()
 	{
@@ -177,7 +183,7 @@ public class Gravity : MonoBehaviour
 
 					if (particle.force != Vector3.zero)
 					{
-						particle.spaceParticle.AddForce(particle.force * elapsedTime);
+						particle.spaceParticle.AddForce(particle.force * timeScale);
 					}
 					if (particle.slowDown != 1)
 					{
@@ -201,11 +207,14 @@ public class Gravity : MonoBehaviour
 	{
 		foreach (ParticleInfo particle in usedParticles)
 		{
-			particle.spaceParticle.SetColor(stats, Mathf.Abs(gravityConfiguration.colorPower) * elapsedTime);
+			particle.spaceParticle.SetColor(stats, Mathf.Abs(gravityConfiguration.colorPower) * timeScale);
 		}
 
-		elapsedTime = 0;
-		stats.SetDependency(dependency);
+//		elapsedTime = 0;
+		if (stats != null)
+		{
+			stats.SetDependency(dependency);
+		}
 		dependency = 0.0f;
 	}
 

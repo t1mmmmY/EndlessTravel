@@ -9,7 +9,9 @@ public class MySexyRigidbody : MonoBehaviour
 
 	void Update()
 	{
-		transform.Translate(velocity * Time.deltaTime, Space.World);
+//		transform.Translate(velocity * Time.deltaTime, Space.World);
+		transform.Translate(velocity, Space.World);
+		
 		velocity *= slowDown;
 	}
 

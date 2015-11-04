@@ -163,10 +163,13 @@ public class SpaceParticle : MonoBehaviour
 
 		for (int i = 0; i < starForce.forces.Count; i++)
 		{
-			targetColor += starForce.stars[i].color * starForce.forces[i];
+			if (starForce.stars.Count > i && starForce.forces.Count > i)
+			{
+				targetColor += starForce.stars[i].color * starForce.forces[i];
+			}
 		}
 
-//		targetColor = Color.Lerp(currentColor, starStats.GetStarColor(), intensity);
+//		targetColor = Color.Lerp(currentColor, starStats.color, intensity);
 	}
 
 
