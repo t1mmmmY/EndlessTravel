@@ -15,6 +15,11 @@ public class StarStats : MonoBehaviour
 	{
 		get { return starConfig.starColor; }
 	}
+
+	public float power
+	{
+		get { return starConfig.power; }
+	}
 	
 
 	string colorKey = "_EmissionColor";
@@ -54,6 +59,12 @@ public class StarStats : MonoBehaviour
 			SetPower();
 			oldPower = starConfig.power;
 		}
+	}
+
+	public void SetConfiguration(StarConfiguration config)
+	{
+		starConfig.CopyConfig(config);
+		Init();
 	}
 
 

@@ -17,12 +17,7 @@ public class StarsManager : BaseSingleton<StarsManager>
 	StarStats playableStar;
 
 	public static System.Action onGameOver;
-
-	//TEMP
-	public void SetPlayableStar(StarStats star)
-	{
-		playableStar = star;
-	}
+	public static System.Action<StarStats> onSetPlayableStar;
 
 	protected override void Awake ()
 	{
@@ -30,15 +25,34 @@ public class StarsManager : BaseSingleton<StarsManager>
 		base.Awake ();
 	}
 
-	void CreateStar(Vector3 position, bool isPlayable = false)
+
+	public StarStats CreateStar(Vector3 position, StarConfiguration config, bool isPlayable = false)
 	{
 		GameObject go = GameObject.Instantiate(starPrefab, position, Quaternion.identity) as GameObject;
+		StarStats starStats = go.GetComponent<StarStats>();
 
+		if (starStats == null)
+		{
+			Debug.LogError("StarStats required!");
+			return null;
+		}
+
+		starStats.SetConfiguration(config);
+
+		ParticlesPool.Instance.GetParticles((int)(CONST.PARTICLES_COEFFICIENT * starStats.power), go.transform.position, starStats.power);
+		
 		if (isPlayable)
 		{
 			go.AddComponent(typeof(StarController));
-			playableStar = go.GetComponent<StarStats>();
+			playableStar = starStats;
+
+			if (onSetPlayableStar != null)
+			{
+				onSetPlayableStar(starStats);
+			}
 		}
+
+		return starStats;
 	}
 
 	public void DestroyStar(StarStats star)

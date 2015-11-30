@@ -4,13 +4,8 @@ using CnControls;
 
 public class StarController : MonoBehaviour 
 {
-	[SerializeField] float speed = 10.0f;
+	[SerializeField] float speed = 2.0f;
 
-
-	void Start()
-	{
-		StarsManager.Instance.SetPlayableStar(GetComponent<StarStats>());
-	}
 
 	void Update()
 	{

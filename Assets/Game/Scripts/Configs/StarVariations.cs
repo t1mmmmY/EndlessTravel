@@ -5,5 +5,9 @@ public class StarVariations : ScriptableObject
 {
 	[SerializeField] StarConfiguration[] configs;
 
+	public StarConfiguration[] configurations
+	{
+		get { return configs; }
+	}
 
 }

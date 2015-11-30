@@ -35,20 +35,35 @@ public class Gravity : MonoBehaviour
 		gravityConfiguration.SetPower(power);
 	}
 
-	void OnEnable()
+//	void OnEnable()
+//	{
+//		isAlive = true;
+//
+//		Loom.RunAsync(CalculateGravity);
+//	}
+
+//	void OnDisable()
+//	{
+//		isAlive = false;
+//	}
+
+	void OnDestroy()
 	{
+		isAlive = false;
+	}
+
+	void OnBecameVisible() 
+	{
+		Debug.Log("Visible");
 		isAlive = true;
 
 		Loom.RunAsync(CalculateGravity);
 	}
 
-	void OnDisable()
+	void OnBecameInvisible() 
 	{
-		isAlive = false;
-	}
-
-	void OnDestroy()
-	{
+		Debug.Log("Invisible");
+		
 		isAlive = false;
 	}
 
@@ -111,7 +126,6 @@ public class Gravity : MonoBehaviour
 					{
 						particle.spaceParticle.SlowDown(particle.slowDown);
 					}
-//					particle.spaceParticle.SetColor(stats, Mathf.Abs(gravityConfiguration.colorPower) * elapsedTime);
 				}
 			}
 			
@@ -132,7 +146,6 @@ public class Gravity : MonoBehaviour
 			particle.spaceParticle.SetColor(stats, Mathf.Abs(gravityConfiguration.colorPower) * CONST.GRAVITY_TIME_SCALE);
 		}
 
-//		elapsedTime = 0;
 		if (stats != null)
 		{
 			stats.SetDependency(dependency);

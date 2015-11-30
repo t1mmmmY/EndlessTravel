@@ -31,6 +31,7 @@ public class SpaceParticle : MonoBehaviour
 
 	void OnEnable()
 	{
+		processing = true;
 		currentColor = renderer.color;
 		StartCoroutine("CustomUpdate");
 		ParticlesManager.AddParticle(this);
@@ -49,12 +50,6 @@ public class SpaceParticle : MonoBehaviour
 		{
 			yield return new WaitForSeconds(timeStamp);
 
-//			string log = string.Empty;
-//			for (int i = 0; i < starForce.forces.Count; i++)
-//			{
-//				log += starForce.stars[i].name + " " + starForce.forces[i].ToString() + '\n';
-//			}
-//			Debug.Log(log);
 
 			if (force != Vector3.zero)
 			{
@@ -92,7 +87,6 @@ public class SpaceParticle : MonoBehaviour
 			}
 		}
 
-//		targetColor = Color.Lerp(currentColor, starStats.color, intensity);
 	}
 
 
@@ -109,7 +103,6 @@ public class SpaceParticle : MonoBehaviour
 
 	public float Dependency(StarStats star)
 	{
-//		float dependency = 1.0f - ((Mathf.Abs(starColor.r - currentColor.r) + Mathf.Abs(starColor.g - currentColor.g) + Mathf.Abs(starColor.b - currentColor.b)) / 3.0f);
 		return starForce.GetPart(star);
 	}
 

@@ -35,5 +35,15 @@ public class StarConfiguration
 	{ 
 		get { return _changeSpeed; }
 	}
-	
+
+
+	public void CopyConfig(StarConfiguration config)
+	{
+		_power = config.power;
+		_gravityAxis = config.gravityAxis;
+		_starColor = config.starColor;
+		_disableColor = config.disableColor;
+		_changeSpeed = config.changeSpeed;
+	}
+
 }

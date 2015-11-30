@@ -3,13 +3,12 @@ using System.Collections;
 
 public class MySexyRigidbody : MonoBehaviour 
 {
-	private float mass = 1.0f;
+	public float mass = 1.0f;
 	public Vector3 velocity = Vector3.zero;
-	private float slowDown = 0.95f;
+	public float slowDown = 0.95f;
 
 	void Update()
 	{
-//		transform.Translate(velocity * Time.deltaTime, Space.World);
 		transform.Translate(velocity, Space.World);
 		
 		velocity *= slowDown;
