@@ -2,11 +2,8 @@
 using System.Collections;
 using CnControls;
 
-public class StarController : MonoBehaviour 
+public class StarController : BaseStarMovement 
 {
-	[SerializeField] float speed = 2.0f;
-
-
 	void Update()
 	{
 		Vector2 movement = new Vector2(CnInputManager.GetAxis("Horizontal"), CnInputManager.GetAxis("Vertical"));
@@ -17,8 +14,4 @@ public class StarController : MonoBehaviour
 		}
 	}
 
-	void Move(Vector2 movement)
-	{
-		transform.Translate(movement * speed * Time.deltaTime);
-	}
 }

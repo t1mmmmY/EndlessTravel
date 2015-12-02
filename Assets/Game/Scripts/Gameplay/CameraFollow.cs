@@ -33,7 +33,7 @@ public class CameraFollow : MonoBehaviour
 	{
 		if (target != null)
 		{
-			shift.z = standartVerticalShift + 1 - playableStar.power;
+			shift.z = standartVerticalShift + 1 - playableStar.power * 2;
 			transform.LookAt(target);
 			transform.position = Vector3.Lerp(transform.position, target.position + shift, Time.deltaTime * speed);
 		}

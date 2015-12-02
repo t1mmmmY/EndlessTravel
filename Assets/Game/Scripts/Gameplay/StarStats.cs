@@ -20,6 +20,16 @@ public class StarStats : MonoBehaviour
 	{
 		get { return starConfig.power; }
 	}
+
+	public Vector3 position 
+	{ 
+		get { return transform.position; } 
+	}
+
+	public float radius
+	{
+		get { return power; }
+	}
 	
 
 	string colorKey = "_EmissionColor";
@@ -28,7 +38,11 @@ public class StarStats : MonoBehaviour
 	
 	float oldPower = 0;
 
+	public bool isActive { get; private set; }
+
 	public int number { get; private set; }
+
+
 
 	void Awake()
 	{
@@ -65,6 +79,19 @@ public class StarStats : MonoBehaviour
 	{
 		starConfig.CopyConfig(config);
 		Init();
+	}
+
+	public void SetActiveStatus(bool isActive)
+	{
+		this.isActive = isActive;
+		if (isActive)
+		{
+			gravity.EnableGravity();
+		}
+		else
+		{
+			gravity.DisableGravity();
+		}
 	}
 
 

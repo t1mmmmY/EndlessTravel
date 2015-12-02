@@ -35,42 +35,35 @@ public class Gravity : MonoBehaviour
 		gravityConfiguration.SetPower(power);
 	}
 
-//	void OnEnable()
-//	{
-//		isAlive = true;
-//
-//		Loom.RunAsync(CalculateGravity);
-//	}
-
-//	void OnDisable()
-//	{
-//		isAlive = false;
-//	}
 
 	void OnDestroy()
 	{
 		isAlive = false;
 	}
 
-	void OnBecameVisible() 
+	public void EnableGravity()
 	{
-		Debug.Log("Visible");
+//		Debug.Log("Visible");
 		isAlive = true;
-
+		
 		Loom.RunAsync(CalculateGravity);
 	}
 
-	void OnBecameInvisible() 
+	public void DisableGravity()
 	{
-		Debug.Log("Invisible");
+//		Debug.Log("Invisible");
 		
 		isAlive = false;
 	}
 
+
 	void GetParticles() 
 	{
+		if (transform == null)
+		{
+			return;
+		}
 		starPosition = transform.position;
-
 		usedParticles = ParticlesManager.GetAllParticlesInRadius(starPosition, gravityConfiguration.gravityRadius);
 
 		calculate = true;
